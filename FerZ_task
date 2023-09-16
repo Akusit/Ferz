@@ -58,26 +58,46 @@ void printArray(vector<vector<int>>& array) {
 	}
 }
 
+void fill_with_zeros(vector<vector<int>>& matrix) {
+	for (auto& row : matrix) {
+		for (int element : row) {
+			element = 0;
+		}
+	}
+}
+
 int main()
 {
 	int n;
 	cin >> n;
 
 	vector<vector<int>> board = createArray(n);
-
+	int x = 0, y = 0;
 	int schet = 0;
-	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < n; j++) {
-			FerZ ferz(i, j, schet);
-			if (ferz.place(board) != 0) {
-				schet++;
+	while (schet != 10) {
+		schet = 0;
+		cout <<endl<< x << " " << y<<endl;
+		FerZ f(x, y, schet);
+		for (int i = 0; i < n; i++) {
+			for (int j = 0; j < n; j++) {
+				FerZ ferz(i, j, schet);
+				if (ferz.place(board) != 0) {
+					schet++;
+				}
 			}
 		}
+		x++;
+		if (x == 10) { x = 0; y++; }
+		printArray(board);
+		fill_with_zeros(board);
+		cout << endl << schet << endl;
+		_getch();
 	}
+
+
 
 	printArray(board);
 	cout << endl <<schet;
-
 	_getch();
 }
 
