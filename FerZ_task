@@ -27,9 +27,11 @@ public:
 		return 0;
 	}
 
-	void place(vector<vector<int>>& array) {
-		if (array[x][y]==0)
+	int place(vector<vector<int>>& array) {
+		if (array[x][y] == 0) {
 			array[x][y] = 2;
+		}
+		else return 0;
 		for (int i = 0; i < array.size(); i++) {
 			for (int j = 0; j < array.size(); j++) {
 				if (((i == x) || (j == y) || (x-i == y-j) || (x+y == j + i))&& (array[i][j]!=2)) {
@@ -63,13 +65,18 @@ int main()
 
 	vector<vector<int>> board = createArray(n);
 
-	int x, y;
-	cin >> x >> y;
-	FerZ f1(x, y, 1);
-
-	f1.place(board);
+	int schet = 0;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			FerZ ferz(i, j, schet);
+			if (ferz.place(board) != 0) {
+				schet++;
+			}
+		}
+	}
 
 	printArray(board);
+	cout << endl <<schet;
 
 	_getch();
 }
