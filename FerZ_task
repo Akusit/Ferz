@@ -10,14 +10,14 @@ int countNumbers(const vector<vector<int>>& matrix, int n);
 
 int num = 0;
 
-	int is_safe(vector<vector<int>>& array) {
+int is_safe(vector<vector<int>>& array) {
 		if (countNumbers(array, 0) == 0) {
 			return 0;
 		}
 		return 1;
 	}
 
-	int place(vector<vector<int>>& array, int x, int y) {
+int place(vector<vector<int>>& array, int x, int y) {
 		if (array[x][y] == 0) {
 			array[x][y] = 2;
 		}
@@ -31,7 +31,6 @@ int num = 0;
 		}
 		return 1;
 	}
-
 
 vector<vector<int>> createArray(int n) {
 	vector<vector<int>> array(n, vector<int>(n, 0));
@@ -69,17 +68,54 @@ int countNumbers(const vector<vector<int>>& matrix, int n) {
 	return count;
 }
 
-int ferz_placment_alg(vector<vector<int>>& array, int x, int y, int n, int trye=0) {
+int ferz_placment_alg(vector<vector<int>>& array, int x, int y, int n) {
 	vector<vector<int>> copy = array;
-	if (place(array, x, y) == 1) {}
-	if (ferz_placment_alg(array, x, y, n) == 1)
-	{
+	if (countNumbers(array, 2) == n) {
+		printArray(array);
+		_getch();
+	}
+
+	if (place(array, x, y) == 1) {
+		if (is_safe(copy)) {
+			ferz_placment_alg(array, x, y, n);
+		}
+	}
+	else if (!is_safe(array)) {
+		return 0;
+	}
+
+	else if (place(array, x, y) == 0) {
+		if (countNumbers(array, 0) == 1) {
+			if (countNumbers(array, 2) + 1 == n) {
+				cout <<endl << "you win"<< endl;
+				printArray(array);
+				abort();
+			}
+			return 0;
+		}
+		for (int i = x; i < n; i++) {
+			for (int j = y; j < n; ) {
+				j++;
+				if (j == n) {
+					i++;
+					j = 0;
+				}
+				cout << endl << x << " " << y << endl;
+				printArray(array);
+
+				num++;
+
+
+				if (i == n) { ferz_placment_alg(copy, 0, 0, n); }
+				cout << num;
+				ferz_placment_alg(copy, i, j, n);
+				return 0;
+			}
+		}
 
 	}
-	else if (ferz_placment_alg(array, x, y, n) == 0)
-	{
 
-	}
+	return 0;
 }
 
 int main()
@@ -93,9 +129,11 @@ int main()
 		for (int j = 0; j < n; j++) {
 			clearArray(board);
 			ferz_placment_alg(board, i, j, n);
+			cout << endl << endl <<i << " "<< j << endl << endl << endl << endl;
+			_getch();
+
 		}
 	}
 
-	cout << "y";
 	_getch();
 }
